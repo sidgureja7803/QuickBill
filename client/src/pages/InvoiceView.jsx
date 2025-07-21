@@ -124,13 +124,16 @@ const InvoiceView = () => {
     <div>
       <div className="md:flex md:items-center md:justify-between mb-6">
         <div className="flex-1 min-w-0">
-          <h1 className="text-2xl font-bold text-gray-900">Invoice #{invoice.invoiceNumber}</h1>
+          <div>
+            <h1 className="text-3xl font-bold text-gray-900">Invoice #{invoice.invoiceNumber}</h1>
+            <p className="text-gray-500 mt-1">Created on {format(new Date(invoice.createdAt), 'MMM dd, yyyy')}</p>
+          </div>
         </div>
         <div className="mt-4 flex md:mt-0 md:ml-4 space-x-2">
           <button
             type="button"
             onClick={() => navigate('/invoices')}
-            className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
+            className="inline-flex items-center justify-center px-4 py-2.5 border border-gray-300 rounded-lg shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-all duration-200"
           >
             Back to Invoices
           </button>
@@ -143,7 +146,7 @@ const InvoiceView = () => {
           <button
             type="button"
             onClick={handleDownloadPDF}
-            className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
+            className="inline-flex items-center justify-center px-4 py-2.5 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-all duration-200"
           >
             Download PDF
           </button>
@@ -160,15 +163,27 @@ const InvoiceView = () => {
         </div>
       </div>
 
-      <div className="bg-white shadow overflow-hidden sm:rounded-lg">
-        <div className="px-4 py-5 sm:px-6 flex justify-between">
-          <div>
-            <h3 className="text-lg leading-6 font-medium text-gray-900">Invoice Details</h3>
+      <div className="bg-white shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden sm:rounded-xl border border-gray-100 p-8">
+        <div className="px-6 py-6 sm:px-8 flex flex-col sm:flex-row justify-between gap-4">
+          <div className="space-y-2">
+            <h3 className="text-lg leading-6 font-medium text-gray-900 flex items-center gap-2">
+              <div className="p-1.5 bg-green-100 rounded-lg">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                </svg>
+              </div>
+              Invoice Details
+            </h3>
+            <div className="mt-2 max-w-2xl text-sm">
+              <p className="text-gray-900 font-medium">{client.name}</p>
+              <p className="text-gray-500 mt-1">{client.email}</p>
+              <p className="text-gray-500">{client.phone}</p>
+            </div>
             <p className="mt-1 max-w-2xl text-sm text-gray-500">
               Created on {format(new Date(invoice.createdAt), 'MMMM dd, yyyy')}
             </p>
           </div>
-          <div>
+          <div className="space-y-2">
             <span
               className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${getStatusBadgeClass(
                 invoice.status
@@ -178,22 +193,22 @@ const InvoiceView = () => {
             </span>
           </div>
         </div>
-        <div className="border-t border-gray-200 px-4 py-5 sm:p-0">
-          <dl className="sm:divide-y sm:divide-gray-200">
-            <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-              <dt className="text-sm font-medium text-gray-500">Issue Date</dt>
+        <div className="border-t border-gray-100">
+          <dl className="divide-y divide-gray-100">
+            <div className="bg-gray-50 px-6 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-8">
+              <dt className="text-sm font-medium text-gray-600">Issue Date</dt>
               <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                 {format(new Date(invoice.issueDate), 'MMMM dd, yyyy')}
               </dd>
             </div>
-            <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-              <dt className="text-sm font-medium text-gray-500">Due Date</dt>
+            <div className="bg-gray-50 px-6 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-8">
+              <dt className="text-sm font-medium text-gray-600">Client email</dt>
               <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                 {format(new Date(invoice.dueDate), 'MMMM dd, yyyy')}
               </dd>
             </div>
-            <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-              <dt className="text-sm font-medium text-gray-500">From</dt>
+            <div className="bg-gray-50 px-6 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-8">
+              <dt className="text-sm font-medium text-gray-600">Phone</dt>
               <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                 <p>{user.company?.name || user.name}</p>
                 {user.company?.address && <p>{user.company.address}</p>}
@@ -201,32 +216,28 @@ const InvoiceView = () => {
                 {user.company?.phone && <p>{user.company.phone}</p>}
               </dd>
             </div>
-            <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+            <div className="bg-gray-50 px-6 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-8">
               <dt className="text-sm font-medium text-gray-500">Bill To</dt>
-              <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                <p>{client.name}</p>
-                {client.address?.street && (
-                  <p>
-                    {client.address.street}
-                    {client.address.city && `, ${client.address.city}`}
-                    {client.address.state && `, ${client.address.state}`}
-                    {client.address.zipCode && ` ${client.address.zipCode}`}
-                    {client.address.country && `, ${client.address.country}`}
-                  </p>
-                )}
-                <p>{client.email}</p>
-                {client.phone && <p>{client.phone}</p>}
+              <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0 font-medium">
+                <a href={`mailto:${client.email}`} className="text-primary-600 hover:underline">{client.email}</a>
               </dd>
             </div>
           </dl>
         </div>
 
         {/* Invoice Items */}
-        <div className="px-4 py-5 sm:px-6">
-          <h3 className="text-lg leading-6 font-medium text-gray-900">Items</h3>
+        <div className="px-6 py-6 sm:px-8 border-b border-gray-100">
+          <h3 className="text-lg leading-6 font-medium text-gray-900 flex items-center gap-2">
+            <div className="p-1.5 bg-blue-100 rounded-lg">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+              </svg>
+            </div>
+            Client Information
+          </h3>
         </div>
-        <div className="overflow-x-auto">
-          <table className="min-w-full divide-y divide-gray-200">
+        <div className="overflow-x-auto px-1">
+          <table className="min-w-full divide-y divide-gray-200 table-auto">
             <thead className="bg-gray-50">
               <tr>
                 <th
@@ -237,9 +248,15 @@ const InvoiceView = () => {
                 </th>
                 <th
                   scope="col"
-                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  className="px-6 py-3.5 text-left text-xs font-medium text-gray-600 uppercase tracking-wider"
                 >
                   Description
+                </th>
+                <th
+                  scope="col"
+                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                >
+                  Item
                 </th>
                 <th
                   scope="col"
@@ -261,9 +278,9 @@ const InvoiceView = () => {
                 </th>
                 <th
                   scope="col"
-                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  className="px-6 py-3.5 text-left text-xs font-medium text-gray-600 uppercase tracking-wider"
                 >
-                  Total
+                  Amount
                 </th>
               </tr>
             </thead>
@@ -274,11 +291,12 @@ const InvoiceView = () => {
                 const itemTotalWithTax = itemTotal + itemTax;
                 
                 return (
-                  <tr key={index}>
+                  <tr key={index} className="hover:bg-gray-50 transition-colors duration-150">
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                       {index + 1}
                     </td>
                     <td className="px-6 py-4 text-sm text-gray-500">{item.description}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{item.item}</td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{item.quantity}</td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                       ${item.unitPrice.toFixed(2)}
@@ -295,21 +313,25 @@ const InvoiceView = () => {
         </div>
 
         {/* Totals */}
-        <div className="px-4 py-5 sm:px-6">
+        <div className="px-6 py-6 sm:px-8 border-b border-gray-100">
           <div className="sm:flex sm:flex-col sm:items-end">
             <div className="w-full sm:max-w-xs">
               <div className="bg-gray-50 p-4 rounded-md">
-                <div className="flex justify-between mb-2">
-                  <div className="text-sm text-gray-700">Subtotal:</div>
-                  <div className="text-sm font-medium text-gray-900">${calculateSubtotal().toFixed(2)}</div>
-                </div>
-                <div className="flex justify-between mb-2">
-                  <div className="text-sm text-gray-700">Tax:</div>
-                  <div className="text-sm font-medium text-gray-900">${invoice.totalTax.toFixed(2)}</div>
+                <div className="flex flex-col sm:flex-row justify-between gap-4 mb-8 pb-6 border-b border-gray-100">
+                  <div className="text-right space-y-2">
+                    <dt className="text-sm font-medium text-gray-700">Subtotal:</dt>
+                    <dd className="text-sm font-semibold text-gray-900">${calculateSubtotal().toFixed(2)}</dd>
+                  </div>
+                  <div className="text-right space-y-2">
+                    <dt className="text-sm font-medium text-gray-700">Tax:</dt>
+                    <dd className="text-sm font-medium text-gray-900">${invoice.totalTax.toFixed(2)}</dd>
+                  </div>
                 </div>
                 <div className="flex justify-between border-t border-gray-200 pt-2 mt-2">
-                  <div className="text-base font-medium text-gray-900">Total:</div>
-                  <div className="text-base font-medium text-gray-900">${invoice.totalAmount.toFixed(2)}</div>
+                  <dt className="text-base font-bold text-gray-900">Total</dt>
+                  <dd className="text-base font-bold text-primary-600">
+                    ${invoice.totalAmount.toFixed(2)}
+                  </dd>
                 </div>
               </div>
             </div>
@@ -318,16 +340,16 @@ const InvoiceView = () => {
 
         {/* Notes and Payment Terms */}
         {(invoice.notes || invoice.paymentTerms) && (
-          <div className="border-t border-gray-200 px-4 py-5 sm:p-0">
-            <dl className="sm:divide-y sm:divide-gray-200">
+          <div className="border-t border-gray-100">
+            <dl className="divide-y divide-gray-100">
               {invoice.notes && (
-                <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                  <dt className="text-sm font-medium text-gray-500">Notes</dt>
+                <div className="bg-gray-50 px-6 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-8">
+                  <dt className="text-sm font-medium text-gray-600">Address</dt>
                   <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{invoice.notes}</dd>
                 </div>
               )}
               {invoice.paymentTerms && (
-                <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                <div className="bg-gray-50 px-6 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-8">
                   <dt className="text-sm font-medium text-gray-500">Payment Terms</dt>
                   <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                     {invoice.paymentTerms}
@@ -342,15 +364,13 @@ const InvoiceView = () => {
       {/* Email Modal */}
       {showEmailModal && (
         <div className="fixed inset-0 overflow-y-auto z-50">
+          <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity backdrop-blur-sm" aria-hidden="true"></div>
+          
           <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-            <div className="fixed inset-0 transition-opacity" aria-hidden="true">
-              <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
-            </div>
-
             <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
 
             <div
-              className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full"
+              className="inline-block align-bottom bg-white rounded-xl text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full border border-gray-100"
               role="dialog"
               aria-modal="true"
               aria-labelledby="modal-headline"
