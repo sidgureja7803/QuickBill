@@ -239,6 +239,9 @@ exports.sendInvoice = async (req, res) => {
         message: 'Not authorized to send this invoice'
       });
     }
+    
+    // Get recipient email - either from request body or fall back to client email
+    const recipientEmail = req.body.recipientEmail || invoice.client.email;
 
     // Create email transporter
     const transporter = nodemailer.createTransport({
@@ -252,14 +255,14 @@ exports.sendInvoice = async (req, res) => {
     // Setup email data
     const mailOptions = {
       from: `"${invoice.user.name}" <${process.env.EMAIL_USER}>`,
-      to: invoice.client.email,
-      subject: `Invoice #${invoice.invoiceNumber} from ${invoice.user.company.name || invoice.user.name}`,
+      to: recipientEmail,
+      subject: `Invoice #${invoice.invoiceNumber} from ${invoice.user.company?.name || invoice.user.name}`,
       html: `
         <h1>Invoice #${invoice.invoiceNumber}</h1>
         <p>Please find attached invoice #${invoice.invoiceNumber} for the amount of $${invoice.totalAmount.toFixed(2)}.</p>
         <p>Due date: ${new Date(invoice.dueDate).toLocaleDateString()}</p>
         <p>Thank you for your business!</p>
-        <p>Regards,<br>${invoice.user.name}<br>${invoice.user.company.name || ''}</p>
+        <p>Regards,<br>${invoice.user.name}<br>${invoice.user.company?.name || ''}</p>
       `,
       attachments: [
         {

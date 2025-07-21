@@ -13,6 +13,9 @@ const InvoiceView = () => {
   const [loading, setLoading] = useState(true);
   const [invoice, setInvoice] = useState(null);
   const [client, setClient] = useState(null);
+  const [showEmailModal, setShowEmailModal] = useState(false);
+  const [emailRecipient, setEmailRecipient] = useState('');
+  const [sendingEmail, setSendingEmail] = useState(false);
 
   useEffect(() => {
     const fetchInvoice = async () => {
@@ -45,10 +48,20 @@ const InvoiceView = () => {
     }
   };
 
+  const handleSendEmailModal = () => {
+    setEmailRecipient(client.email); // Default to client's email
+    setShowEmailModal(true);
+  };
+
   const handleSendEmail = async () => {
+    if (!emailRecipient || !emailRecipient.trim()) {
+      toast.error('Please enter a valid email address');
+      return;
+    }
+    
     try {
-      setLoading(true);
-      await api.post(`/api/invoices/${id}/send`);
+      setSendingEmail(true);
+      await api.post(`/api/invoices/${id}/send`, { recipientEmail: emailRecipient });
       
       // Update the invoice status in the local state
       setInvoice({
@@ -56,13 +69,19 @@ const InvoiceView = () => {
         status: 'sent'
       });
       
+      setShowEmailModal(false);
       toast.success('Invoice sent successfully');
     } catch (error) {
       toast.error('Error sending invoice');
       console.error(error);
     } finally {
-      setLoading(false);
+      setSendingEmail(false);
     }
+  };
+  
+  const closeEmailModal = () => {
+    setShowEmailModal(false);
+    setEmailRecipient('');
   };
 
   const getStatusBadgeClass = (status) => {
@@ -131,7 +150,7 @@ const InvoiceView = () => {
           {invoice.status !== 'paid' && (
             <button
               type="button"
-              onClick={handleSendEmail}
+              onClick={handleSendEmailModal}
               disabled={loading}
               className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 disabled:opacity-50"
             >
@@ -319,6 +338,71 @@ const InvoiceView = () => {
           </div>
         )}
       </div>
+
+      {/* Email Modal */}
+      {showEmailModal && (
+        <div className="fixed inset-0 overflow-y-auto z-50">
+          <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+            <div className="fixed inset-0 transition-opacity" aria-hidden="true">
+              <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
+            </div>
+
+            <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+
+            <div
+              className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full"
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="modal-headline"
+            >
+              <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                <div className="sm:flex sm:items-start">
+                  <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
+                    <h3 className="text-lg leading-6 font-medium text-gray-900" id="modal-headline">
+                      Send Invoice via Email
+                    </h3>
+                    <div className="mt-4">
+                      <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+                        Recipient Email
+                      </label>
+                      <input
+                        type="email"
+                        name="email"
+                        id="email"
+                        value={emailRecipient}
+                        onChange={(e) => setEmailRecipient(e.target.value)}
+                        className="mt-1 focus:ring-primary-500 focus:border-primary-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                        placeholder="recipient@example.com"
+                      />
+                      <p className="mt-2 text-xs text-gray-500">
+                        Invoice will be sent as a PDF attachment to this email.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                <button
+                  type="button"
+                  onClick={handleSendEmail}
+                  disabled={sendingEmail}
+                  className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-primary-600 text-base font-medium text-white hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 sm:ml-3 sm:w-auto sm:text-sm disabled:opacity-50"
+                >
+                  {sendingEmail ? 'Sending...' : 'Send'}
+                </button>
+                <button
+                  type="button"
+                  onClick={closeEmailModal}
+                  disabled={sendingEmail}
+                  className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

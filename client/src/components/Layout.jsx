@@ -8,7 +8,9 @@ import {
   UserCircleIcon,
   ArrowRightOnRectangleIcon,
   Bars3Icon,
-  XMarkIcon
+  XMarkIcon,
+  CalculatorIcon,
+  CreditCardIcon
 } from '@heroicons/react/24/outline';
 
 const Layout = () => {
@@ -21,6 +23,8 @@ const Layout = () => {
     { name: 'Dashboard', href: '/dashboard', icon: HomeIcon },
     { name: 'Clients', href: '/clients', icon: UsersIcon },
     { name: 'Invoices', href: '/invoices', icon: DocumentTextIcon },
+    { name: 'Estimates', href: '/estimates', icon: CalculatorIcon },
+    { name: 'Expenses', href: '/expenses', icon: CreditCardIcon },
     { name: 'Profile', href: '/profile', icon: UserCircleIcon },
   ];
 
