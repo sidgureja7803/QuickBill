@@ -160,33 +160,39 @@ const Dashboard = () => {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-64 bg-white rounded-xl shadow-md border border-gray-100">
-        <div className="flex flex-col items-center gap-3">
-          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary-600"></div>
-          <p className="text-gray-500">Loading dashboard data...</p>
+      <div className="flex justify-center items-center h-64 card">
+        <div className="flex flex-col items-center gap-4">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary-600 dark:border-primary-400"></div>
+          <p className="text-gray-500 dark:text-gray-400">Loading dashboard data...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+    <div className="space-y-8">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Dashboard</h1>
-          <p className="text-gray-500 mt-1">Welcome back, {user?.name}</p>
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Dashboard</h1>
+          <p className="text-gray-500 dark:text-gray-400 mt-2">Welcome back, {user?.name}</p>
         </div>
         <div className="flex flex-col sm:flex-row gap-3">
           <Link
             to="/invoices/new"
-            className="inline-flex items-center justify-center px-5 py-2.5 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition duration-150 ease-in-out"
+            className="inline-flex items-center justify-center px-6 py-3 btn-primary rounded-xl text-sm font-medium"
           >
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+            </svg>
             New Invoice
           </Link>
           <Link
             to="/clients/new"
-            className="inline-flex items-center justify-center px-5 py-2.5 border border-gray-300 rounded-lg shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition duration-150 ease-in-out"
+            className="inline-flex items-center justify-center px-6 py-3 btn-secondary rounded-xl text-sm font-medium"
           >
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
+            </svg>
             New Client
           </Link>
         </div>
@@ -194,59 +200,67 @@ const Dashboard = () => {
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-        <div className="bg-white overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300 rounded-xl border border-gray-100">
-          <div className="px-5 py-6">
-            <dt className="text-sm font-medium text-gray-500 truncate flex items-center gap-2">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-primary-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-              </svg>
+        <div className="card overflow-hidden">
+          <div className="px-6 py-6">
+            <dt className="text-sm font-medium text-gray-500 dark:text-gray-400 truncate flex items-center gap-3">
+              <div className="p-2 bg-primary-100 dark:bg-primary-900/30 rounded-lg">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-primary-600 dark:text-primary-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+              </div>
               Total Invoices
             </dt>
-            <dd className="mt-2 text-3xl font-bold text-gray-900">{stats.totalInvoices}</dd>
+            <dd className="mt-3 text-3xl font-bold text-gray-900 dark:text-white">{stats.totalInvoices}</dd>
           </div>
         </div>
-        <div className="bg-white overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300 rounded-xl border border-gray-100">
-          <div className="px-5 py-6">
-            <dt className="text-sm font-medium text-gray-500 truncate flex items-center gap-2">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-indigo-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
+        <div className="card overflow-hidden">
+          <div className="px-6 py-6">
+            <dt className="text-sm font-medium text-gray-500 dark:text-gray-400 truncate flex items-center gap-3">
+              <div className="p-2 bg-indigo-100 dark:bg-indigo-900/30 rounded-lg">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-indigo-600 dark:text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
               Total Amount
             </dt>
-            <dd className="mt-2 text-3xl font-bold text-gray-900">${stats.totalAmount.toFixed(2)}</dd>
+            <dd className="mt-3 text-3xl font-bold text-gray-900 dark:text-white">${stats.totalAmount.toFixed(2)}</dd>
           </div>
         </div>
-        <div className="bg-white overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300 rounded-xl border border-gray-100">
-          <div className="px-5 py-6">
-            <dt className="text-sm font-medium text-gray-500 truncate flex items-center gap-2">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
+        <div className="card overflow-hidden">
+          <div className="px-6 py-6">
+            <dt className="text-sm font-medium text-gray-500 dark:text-gray-400 truncate flex items-center gap-3">
+              <div className="p-2 bg-green-100 dark:bg-green-900/30 rounded-lg">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-green-600 dark:text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
               Paid Amount
             </dt>
-            <dd className="mt-2 text-3xl font-bold text-green-600">${stats.paidAmount.toFixed(2)}</dd>
+            <dd className="mt-3 text-3xl font-bold text-green-600 dark:text-green-400">${stats.paidAmount.toFixed(2)}</dd>
           </div>
         </div>
-        <div className="bg-white overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300 rounded-xl border border-gray-100">
-          <div className="px-5 py-6">
-            <dt className="text-sm font-medium text-gray-500 truncate flex items-center gap-2">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
+        <div className="card overflow-hidden">
+          <div className="px-6 py-6">
+            <dt className="text-sm font-medium text-gray-500 dark:text-gray-400 truncate flex items-center gap-3">
+              <div className="p-2 bg-red-100 dark:bg-red-900/30 rounded-lg">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-red-600 dark:text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
               Unpaid Amount
             </dt>
-            <dd className="mt-2 text-3xl font-bold text-red-600">${stats.unpaidAmount.toFixed(2)}</dd>
+            <dd className="mt-3 text-3xl font-bold text-red-600 dark:text-red-400">${stats.unpaidAmount.toFixed(2)}</dd>
           </div>
         </div>
       </div>
 
       {/* Charts */}
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2 mt-2">
-        <div className="bg-white overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300 rounded-xl border border-gray-100">
-          <div className="px-5 py-6">
-            <h3 className="text-lg leading-6 font-medium text-gray-900 mb-5 flex items-center gap-2">
-              <div className="p-1.5 bg-primary-100 rounded-lg">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-primary-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+        <div className="card overflow-hidden">
+          <div className="px-6 py-6">
+            <h3 className="text-lg leading-6 font-medium text-gray-900 dark:text-white mb-6 flex items-center gap-3">
+              <div className="p-2 bg-primary-100 dark:bg-primary-900/30 rounded-lg">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-primary-600 dark:text-primary-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                 </svg>
               </div>
@@ -259,11 +273,11 @@ const Dashboard = () => {
             </div>
           </div>
         </div>
-        <div className="bg-white overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300 rounded-xl border border-gray-100">
-          <div className="px-5 py-6">
-            <h3 className="text-lg leading-6 font-medium text-gray-900 mb-5 flex items-center gap-2">
-              <div className="p-1.5 bg-blue-100 rounded-lg">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <div className="card overflow-hidden">
+          <div className="px-6 py-6">
+            <h3 className="text-lg leading-6 font-medium text-gray-900 dark:text-white mb-6 flex items-center gap-3">
+              <div className="p-2 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-blue-600 dark:text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                 </svg>
               </div>
@@ -287,11 +301,11 @@ const Dashboard = () => {
       </div>
 
       {/* Recent Invoices */}
-      <div className="bg-white shadow-md hover:shadow-lg transition-shadow duration-300 rounded-xl border border-gray-100">
-        <div className="px-5 py-5 sm:px-6 flex justify-between items-center border-b border-gray-100">
-          <h3 className="text-lg leading-6 font-medium text-gray-900 flex items-center gap-2">
-            <div className="p-1.5 bg-green-100 rounded-lg">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <div className="card">
+        <div className="card-header flex justify-between items-center">
+          <h3 className="text-lg leading-6 font-medium text-gray-900 dark:text-white flex items-center gap-3">
+            <div className="p-2 bg-green-100 dark:bg-green-900/30 rounded-lg">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-green-600 dark:text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
               </svg>
             </div>
@@ -299,97 +313,94 @@ const Dashboard = () => {
           </h3>
           <Link
             to="/invoices"
-            className="text-sm font-medium text-primary-600 hover:text-primary-500 flex items-center gap-1"
+            className="text-sm font-medium text-primary-600 dark:text-primary-400 hover:text-primary-500 dark:hover:text-primary-300 flex items-center gap-1"
           >
             View all
             <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
             </svg>
-
           </Link>
         </div>
-        <div className="border-t border-gray-200">
-          <div className="overflow-x-auto">
-            <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-gray-50">
-                <tr>
-                  <th
-                    scope="col"
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                  >
-                    Invoice #
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                  >
-                    Client
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                  >
-                    Date
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                  >
-                    Amount
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                  >
-                    Status
-                  </th>
+        <div className="overflow-x-auto">
+          <table className="min-w-full divide-y divide-gray-200 dark:divide-dark-700">
+            <thead className="table-header">
+              <tr>
+                <th
+                  scope="col"
+                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider"
+                >
+                  Invoice #
+                </th>
+                <th
+                  scope="col"
+                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider"
+                >
+                  Client
+                </th>
+                <th
+                  scope="col"
+                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider"
+                >
+                  Date
+                </th>
+                <th
+                  scope="col"
+                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider"
+                >
+                  Amount
+                </th>
+                <th
+                  scope="col"
+                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider"
+                >
+                  Status
+                </th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-gray-200 dark:divide-dark-700">
+              {stats.recentInvoices.map((invoice) => (
+                <tr key={invoice._id} className="table-row">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
+                    <Link to={`/invoices/${invoice._id}/view`} className="text-primary-600 dark:text-primary-400 hover:text-primary-900 dark:hover:text-primary-300">
+                      {invoice.invoiceNumber}
+                    </Link>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                    {invoice.client.name || 'Unknown Client'}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                    {format(new Date(invoice.createdAt), 'MMM dd, yyyy')}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                    ${invoice.totalAmount.toFixed(2)}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <span
+                      className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${getStatusClass(invoice.status)}`}
+                    >
+                      {invoice.status.charAt(0).toUpperCase() + invoice.status.slice(1)}
+                    </span>
+                  </td>
                 </tr>
-              </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
-                {stats.recentInvoices.map((invoice) => (
-                  <tr key={invoice._id}>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                      <Link to={`/invoices/${invoice._id}/view`} className="text-primary-600 hover:text-primary-900">
-                        {invoice.invoiceNumber}
-                      </Link>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {invoice.client.name || 'Unknown Client'}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {format(new Date(invoice.createdAt), 'MMM dd, yyyy')}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      ${invoice.totalAmount.toFixed(2)}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <span
-                        className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${getStatusClass(invoice.status)}`}
-                      >
-                        {invoice.status.charAt(0).toUpperCase() + invoice.status.slice(1)}
-                      </span>
-                    </td>
-                  </tr>
-                ))}
-                {stats.recentInvoices.length === 0 && (
-                  <tr>
-                    <td colSpan="5" className="px-6 py-4 text-center text-sm text-gray-500">
-                      No invoices found
-                    </td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
-          </div>
+              ))}
+              {stats.recentInvoices.length === 0 && (
+                <tr>
+                  <td colSpan="5" className="px-6 py-4 text-center text-sm text-gray-500 dark:text-gray-400">
+                    No invoices found
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
         </div>
       </div>
 
       {/* Top Clients */}
-      <div className="bg-white shadow-md hover:shadow-lg transition-shadow duration-300 rounded-xl border border-gray-100">
-        <div className="px-5 py-5 sm:px-6 flex justify-between items-center border-b border-gray-100">
-          <h3 className="text-lg leading-6 font-medium text-gray-900 flex items-center gap-2">
-            <div className="p-1.5 bg-purple-100 rounded-lg">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <div className="card">
+        <div className="card-header flex justify-between items-center">
+          <h3 className="text-lg leading-6 font-medium text-gray-900 dark:text-white flex items-center gap-3">
+            <div className="p-2 bg-purple-100 dark:bg-purple-900/30 rounded-lg">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-purple-600 dark:text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
               </svg>
             </div>
@@ -397,34 +408,33 @@ const Dashboard = () => {
           </h3>
           <Link
             to="/clients"
-            className="text-sm font-medium text-primary-600 hover:text-primary-500 flex items-center gap-1"
+            className="text-sm font-medium text-primary-600 dark:text-primary-400 hover:text-primary-500 dark:hover:text-primary-300 flex items-center gap-1"
           >
             View all
             <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
             </svg>
- clients
           </Link>
         </div>
-        <div className="border-t border-gray-200">
-          <ul className="divide-y divide-gray-100">
+        <div>
+          <ul className="divide-y divide-gray-100 dark:divide-dark-700">
             {stats.topClients.map((client) => (
-              <li key={client.id} className="px-6 py-4 hover:bg-gray-50 transition-colors duration-150">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
-                  <div className="text-sm font-medium text-gray-900 flex items-center gap-2">
-                    <div className="bg-purple-100 rounded-full p-1.5">
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <li key={client.id} className="px-6 py-4 hover:bg-gray-50 dark:hover:bg-dark-700/50 transition-colors duration-150">
+                <div className="flex items-center justify-between">
+                  <div className="text-sm font-medium text-gray-900 dark:text-white flex items-center gap-3">
+                    <div className="bg-purple-100 dark:bg-purple-900/30 rounded-full p-2">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-purple-600 dark:text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                       </svg>
                     </div>
                     {client.name}
                   </div>
-                  <div className="text-sm font-semibold text-gray-700 bg-gray-100 py-1 px-2 rounded-lg">${client.total.toFixed(2)}</div>
+                  <div className="text-sm font-semibold text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-dark-700 py-2 px-3 rounded-lg">${client.total.toFixed(2)}</div>
                 </div>
               </li>
             ))}
             {stats.topClients.length === 0 && (
-              <li className="px-6 py-4 text-center text-sm text-gray-500">
+              <li className="px-6 py-4 text-center text-sm text-gray-500 dark:text-gray-400">
                 No clients found
               </li>
             )}
